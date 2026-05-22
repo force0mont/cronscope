@@ -72,3 +72,9 @@ func (h *History) Expressions() []string {
 	}
 	return out
 }
+
+// Clear removes all entries from the history.
+func (h *History) Clear() error {
+	h.Entries = nil
+	return h.Save()
+}
