@@ -82,3 +82,16 @@ func TestHistory_Expressions_ReturnsStrings(t *testing.T) {
 	}
 	_ = os.Remove(h.path)
 }
+
+func TestHistory_Add_DeduplicatePromotesToFront(t *testing.T) {
+	h := NewHistory(tempHistoryPath(t), 10)
+	h.Add("0 * * * *")
+	h.Add("@daily")
+	h.Add("0 * * * *") // re-add first entry; should move it to front
+	if len(h.Entries) != 2 {
+		t.Fatalf("expected 2 entries after re-add, got %d", len(h.Entries))
+	}
+	if h.Entries[0].Expression != "0 * * * *" {
+		t.Errorf("expected re-added entry promoted to front, got %q", h.Entries[0].Expression)
+	}
+}
