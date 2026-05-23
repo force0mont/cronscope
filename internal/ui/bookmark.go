@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	bookmarkTitleStyle = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("33"))
-	bookmarkItemStyle  = lipgloss.NewStyle().PaddingLeft(2)
+	bookmarkTitleStyle  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("33"))
+	bookmarkItemStyle   = lipgloss.NewStyle().PaddingLeft(2)
 	bookmarkCursorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("205")).Bold(true)
 )
 
@@ -55,6 +55,11 @@ func (m BookmarkModel) Update(msg tea.Msg) (BookmarkModel, tea.Cmd) {
 func (m *BookmarkModel) Toggle() {
 	m.visible = !m.visible
 	m.cursor = 0
+}
+
+// IsVisible reports whether the bookmark panel is currently shown.
+func (m BookmarkModel) IsVisible() bool {
+	return m.visible
 }
 
 // Selected returns the currently highlighted bookmark, or nil.
